@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@evawave/expo-esp-idf-provisioning": "file:..",
-    "expo": "56.0.8",
+    "expo": "56.0.20",
     "react": "19.2.3",
     "react-native": "0.85.3"
   },

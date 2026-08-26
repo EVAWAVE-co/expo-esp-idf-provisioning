@@ -12,6 +12,9 @@
 - Added package, config plugin, and public API verification.
 - Added contribution, security, conduct, and third-party license documentation.
 - Verified native compilation with Expo SDK 56 and 57.
+- Updated the iOS CI runner to macOS 26 with Xcode 26.4.1, matching Expo SDK
+  56's Swift 6.3 toolchain requirement, and updated the Expo 56 consumer to
+  56.0.20.
 - Capped `ACCESS_FINE_LOCATION` at `maxSdkVersion="30"` in the module manifest so
   apps that do not add the config plugin no longer request unrestricted location.
 - Made the config plugin own only the iOS usage description and the

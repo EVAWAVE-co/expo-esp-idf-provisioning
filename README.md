@@ -37,12 +37,12 @@ modules, so use a development build.
 | 56       | Compile and lint verified | Compile verified | CI                |
 | 57       | Compile verified          | Compile verified | Local build check |
 
-The native module compiles against both SDKs. Xcode 26.0.1 currently fails
-earlier while building Expo's `ExpoModulesJSI`, even in a newly generated Expo
-app. Track the upstream Expo issue
-[#46241](https://github.com/expo/expo/issues/46241). CI uses Xcode 16.4 until
-Expo publishes an Xcode 26-compatible `ExpoModulesJSI` release. The current CI
-consumer app uses Expo SDK 56; SDK 57 is checked separately before release.
+The native module compiles against both SDKs. Expo SDK 56 requires Xcode 26.4
+or newer because `ExpoModulesJSI` uses Swift 6.3 language features. CI pins
+Xcode 26.4.1 on GitHub's macOS 26 runner, following Expo's
+[toolchain guidance](https://github.com/expo/expo/issues/46242).
+The current CI consumer app uses Expo SDK 56; SDK 57 is checked separately
+before release.
 
 ## Installation
 
