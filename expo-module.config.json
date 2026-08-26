@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["EspIdfProvisioningModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.espidfprovisioning.EspIdfProvisioningModule"]
+  }
+}

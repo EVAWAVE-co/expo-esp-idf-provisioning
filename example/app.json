@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "ESP-IDF Provisioning Example",
+    "slug": "expo-esp-idf-provisioning-example",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.evawave.espidfprovisioning.example"
+    },
+    "android": {
+      "package": "com.evawave.espidfprovisioning.example"
+    },
+    "plugins": ["@evawave/expo-esp-idf-provisioning"]
+  }
+}

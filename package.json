@@ -1,0 +1,92 @@
+{
+  "name": "@evawave/expo-esp-idf-provisioning",
+  "version": "0.1.0",
+  "description": "Expo native module for ESP-IDF Unified Provisioning over Bluetooth LE",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "workspaces": [
+    "example"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "node -e \"require('node:fs').rmSync('build', { recursive: true, force: true })\"",
+    "lint": "eslint src/",
+    "test": "jest --runInBand",
+    "typecheck:example": "npm run --workspace example typecheck",
+    "verify:package": "node internal/verify-package.js",
+    "verify": "npm run build && npm run lint && npm test && npm run typecheck:example && npm run verify:package",
+    "prepublishOnly": "npm run verify",
+    "prepare": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "expo-esp-idf-provisioning",
+    "esp32",
+    "bluetooth-le",
+    "EspIdfProvisioning"
+  ],
+  "author": {
+    "name": "EVAWAVE Co.",
+    "url": "https://github.com/EVAWAVE-co"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EVAWAVE-co/expo-esp-idf-provisioning.git"
+  },
+  "homepage": "https://github.com/EVAWAVE-co/expo-esp-idf-provisioning#readme",
+  "bugs": {
+    "url": "https://github.com/EVAWAVE-co/expo-esp-idf-provisioning/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "android",
+    "ios",
+    "src",
+    "build",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "HARDWARE_TESTING.md",
+    "SECURITY.md",
+    "THIRD_PARTY_NOTICES.md",
+    "app.plugin.js",
+    "plugin",
+    "expo-module.config.json"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@types/jest": "^29.2.1",
+    "@types/react": "~19.2.2",
+    "babel-preset-expo": "~56.0.0",
+    "eslint": "~9.39.4",
+    "eslint-config-universe": "^15.0.3",
+    "expo": "56.0.8",
+    "jest": "^29.7.0",
+    "jest-expo": "~56.0.0",
+    "prettier": "^3.0.0",
+    "react": "19.2.3",
+    "react-native": "0.85.3",
+    "typescript": "~6.0.3"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/plugin"
+    ]
+  },
+  "peerDependencies": {
+    "expo": ">=56 <58",
+    "react": "*",
+    "react-native": "*"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

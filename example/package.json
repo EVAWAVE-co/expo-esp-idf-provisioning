@@ -1,0 +1,22 @@
+{
+  "name": "expo-esp-idf-provisioning-example",
+  "version": "1.0.0",
+  "private": true,
+  "main": "expo/AppEntry",
+  "scripts": {
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "start": "expo start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@evawave/expo-esp-idf-provisioning": "file:..",
+    "expo": "56.0.8",
+    "react": "19.2.3",
+    "react-native": "0.85.3"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "typescript": "~6.0.3"
+  }
+}

@@ -1,0 +1,12 @@
+<!--
+  Baseline BLE permissions for every consuming app, correct without the config
+  plugin. The plugin only adds the `neverForLocation` flag to BLUETOOTH_SCAN and
+  the iOS usage description; it must not restate these permissions.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+  <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+  <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+</manifest>

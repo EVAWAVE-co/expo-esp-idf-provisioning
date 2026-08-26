@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      expo-toolchain:
+        patterns:
+          - expo
+          - jest-expo
+          - babel-preset-expo
+          - react
+          - react-native
+  - package-ecosystem: gradle
+    directory: /android
+    schedule:
+      interval: monthly
+  - package-ecosystem: cocoapods
+    directory: /ios
+    schedule:
+      interval: monthly
