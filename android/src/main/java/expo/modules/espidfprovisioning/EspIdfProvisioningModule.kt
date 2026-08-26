@@ -30,6 +30,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.FutureTask
 
 private data class PendingOperation(
   val id: String,
@@ -73,9 +74,15 @@ class EspIdfProvisioningModule : Module() {
     get() = appContext.reactContext
       ?: throw provisioningError(ErrorCode.UNKNOWN, "React context is unavailable.")
 
-  private val provisionManager: ESPProvisionManager by lazy {
-    ESPProvisionManager.getInstance(context)
+  private val provisionManagerDelegate = lazy {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+      ESPProvisionManager.getInstance(context)
+    } else {
+      FutureTask { ESPProvisionManager.getInstance(context) }.also(mainHandler::post).get()
+    }
   }
+  private val provisionManager: ESPProvisionManager
+    get() = provisionManagerDelegate.value
 
   override fun definition() = ModuleDefinition {
     Name("EspIdfProvisioning")
@@ -143,7 +150,9 @@ class EspIdfProvisioningModule : Module() {
     }
 
     OnDestroy {
-      provisionManager.stopBleScan()
+      if (provisionManagerDelegate.isInitialized()) {
+        provisionManager.stopBleScan()
+      }
       cancelAllOperations()
       connectionListeners.values.forEach(::unregisterEventListener)
       connectionListeners.clear()

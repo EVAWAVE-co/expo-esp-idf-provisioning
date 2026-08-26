@@ -27,6 +27,9 @@
 - Made the web build throw an explanatory error instead of exposing an empty
   module.
 - Removed the raw native module from the public API surface.
+- Kept Android module teardown from initializing Espressif's manager on a
+  background thread, and ensured its first initialization runs on the main
+  looper as required by the SDK.
 
 - Added Expo-only BLE provisioning for iOS and Android.
 - Added discovery, connection, Wi-Fi scanning, custom endpoints, provisioning,
