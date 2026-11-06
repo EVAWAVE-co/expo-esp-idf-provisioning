@@ -86,6 +86,11 @@ public final class EspIdfProvisioningModule: Module {
   private var devices: [String: ESPDevice] = [:]
   private var connectionStates: [String: String] = [:]
   private var pendingOperations: [String: PendingOperation] = [:]
+  // ESPProvision 3.0.3 force-unwraps its BLE transport in stopESPDevicesSearch(), and the
+  // transport stays nil until the first searchESPDevices call. Stopping before any search
+  // (OnDestroy when the JS runtime reloads, or stopSearch from JS) crashed with EXC_BREAKPOINT.
+  private let searchLock = NSLock()
+  private var hasSearched = false
 
   public func definition() -> ModuleDefinition {
     Name("EspIdfProvisioning")
@@ -97,7 +102,7 @@ public final class EspIdfProvisioningModule: Module {
     }
 
     Function("stopSearch") {
-      ESPProvisionManager.shared.stopESPDevicesSearch()
+      self.stopDeviceSearch()
       self.cancelOperation(key: self.searchKey, message: "Device search was cancelled.")
     }
 
@@ -314,12 +319,20 @@ public final class EspIdfProvisioningModule: Module {
     }
 
     OnDestroy {
-      ESPProvisionManager.shared.stopESPDevicesSearch()
+      self.stopDeviceSearch()
       self.cancelAllOperations()
       for (name, device) in self.removeAllDevices() {
         self.disconnectManagedDevice(name: name, device: device)
       }
     }
+  }
+
+  private func stopDeviceSearch() {
+    searchLock.lock()
+    let searched = hasSearched
+    searchLock.unlock()
+    guard searched else { return }
+    ESPProvisionManager.shared.stopESPDevicesSearch()
   }
 
   private func searchDevices(prefix: String, security: Int, timeoutMs: Int, promise: Promise) {
@@ -331,12 +344,15 @@ public final class EspIdfProvisioningModule: Module {
       key: searchKey,
       timeoutMs: timeoutMs,
       promise: promise,
-      cleanup: { ESPProvisionManager.shared.stopESPDevicesSearch() }
+      cleanup: { [weak self] in self?.stopDeviceSearch() }
     ) else {
       return
     }
 
     let securityValue = ESPSecurity(rawValue: security)
+    searchLock.lock()
+    hasSearched = true
+    searchLock.unlock()
     ESPProvisionManager.shared.searchESPDevices(
       devicePrefix: prefix,
       transport: .ble,

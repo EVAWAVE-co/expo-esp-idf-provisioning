@@ -2,6 +2,9 @@
 
 ## Unreleased (planned 0.1.0)
 
+- Fixed an iOS crash when the module is destroyed (for example on an `expo-updates`
+  reload) or `stopSearch()` is called before any device search: `ESPProvision`
+  3.0.3 force-unwraps a BLE transport that only exists after the first search.
 - Moved proof-of-possession and Security 2 usernames to `device.connect()` so
   both discovery paths support device-specific credentials through one API.
 - Added explicit missing-credential errors while preserving Security 1 devices
